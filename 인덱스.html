@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>테트리스 게임</title>
+  <style>
+    body {
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    canvas {
+      border: 2px solid white;
+      background-color: #111;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="tetris" width="240" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById('tetris');
+    const context = canvas.getContext('2d');
+    context.scale(20, 20);
+
+    const matrix = [
+      [0, 0, 0],
+      [1, 1, 1],
+      [0, 1, 0]
+    ];
+
+    function drawMatrix(matrix, offset) {
+      matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+          if (value !== 0) {
+            context.fillStyle = 'red';
+            context.fillRect(x + offset.x, y + offset.y, 1, 1);
+          }
+        });
+      });
+    }
+
+    let position = {x: 3, y: 0};
+
+    function draw() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      drawMatrix(matrix, position);
+    }
+
+    function update() {
+      position.y++;
+      if (position.y > 17) position.y = 0; // 바닥에 닿으면 다시 시작
+      draw();
+    }
+
+    setInterval(update, 500); // 0.5초마다 떨어짐
+  </script>
+</body>
+</html>
